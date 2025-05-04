@@ -5,13 +5,13 @@ import java.util.Random;
 import static org.data.commonWords.words;
 
 public class CommandNew {
-    public static String newCommand(boolean[] isGamePresent , String[] word){
+    public static String newCommand(WordleInstance game){
         System.out.println("Inside newCommand");
-        if(!isGamePresent[0]){
-            // get the word
-            word[0] = getWord();
+        if(!game.isPresent){
+            game.LastMsg = "";
+            game.gameWord = getWord();
         }
-        return (!isGamePresent[0]) ? "New game started, Guess the 5 letter word!  " :
+        return (!game.isPresent) ? "New game started, Guess the 5 letter word!  " :
                 "Game is already in progress!  ";
     }
 

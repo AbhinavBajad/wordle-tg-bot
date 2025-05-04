@@ -10,9 +10,9 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 import java.util.List;
 
 public class CommandEnd {
-    public String endCommand(Update update , String[] word , TelegramClient telegramClient , boolean[] isGamePresent) {
+    public String endCommand(Update update , TelegramClient telegramClient ,WordleInstance game) {
         System.out.println("Inside endCommand");
-        if(!isGamePresent[0]) {
+        if(!game.isPresent) {
             return "No game is running!  ";
         }
 
@@ -28,8 +28,8 @@ public class CommandEnd {
                 for (ChatMember member : administrators) {
                     if (member.getUser().getId().equals(senderId)) {
                         System.out.println("Is administrator");
-                        isGamePresent[0] = false;
-                        return "Game ended , the word was " + word[0]  + " !  ";
+                        game.isPresent = false;
+                        return "Game ended , the word was " + game.gameWord  + " !  ";
 
                     } else {
                         return "Only administrators can end the game!  ";

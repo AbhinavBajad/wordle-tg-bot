@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class ChatBotProcessor {
 
-    public String processMsg(String prevMsg , Update update , String[] word , boolean[] isGamePresent){
+    public String processMsg(String prevMsg , Update update , WordleInstance game){
         System.out.println("Inside processMsg");
         String botAnswer="";
 
@@ -20,11 +20,11 @@ public class ChatBotProcessor {
             System.out.println("currTxt: " + currTxt);
             if(currTxt == null || currTxt.isEmpty()) return prevMsg;
             // got a valid word , update it in the prevMsg
-            else if(currTxt.equals(word[0])) {
-                botAnswer = "You guessed the word " + word[0] + " correclty!";
-                isGamePresent[0] = false;
+            else if(currTxt.equals(game.gameWord)) {
+                botAnswer = "You guessed the word " + game.gameWord + " correclty!";
+                game.isPresent = false;
             }
-            else botAnswer = prevMsg + "\n" + updateMsg( currTxt , word);
+            else botAnswer = prevMsg + "\n" + updateMsg( currTxt , game.gameWord);
         }
         return botAnswer;
     }
@@ -35,26 +35,26 @@ public class ChatBotProcessor {
          if (!txtMsg.matches("[a-zA-Z]+")) return "";
 
          ObjectMapper objectMapper = new ObjectMapper();
-         List<String > validWords = WordLoader.loadWords("src/main/java/org/data/allWordsSorted.json");
+         List<String > validWords = WordLoader.loadWords("allWordsSorted.json");
          int idx = Collections.binarySearch(validWords, txtMsg);
          System.out.println("idx :" + idx);
          return (idx>=0)? txtMsg : "";
     }
 
-    public String updateMsg( String currTxt , String[] word){
+    public String updateMsg( String currTxt , String word){
         System.out.println("Inside updateMsg");
         // RED EMOJI STRING
         String newMsg = "🟥🟥🟥🟥🟥 "+ currTxt.toUpperCase();
         Set<Character> s = new HashSet<Character>();
 
         // Matched letters
-        for(int i=0;i<word[0].length();i++){
-            s.add(word[0].charAt(i));
+        for(int i=0;i<word.length();i++){
+            s.add(word.charAt(i));
         }
 
-        for(int i=0; i<word[0].length(); i++){
+        for(int i=0; i<word.length(); i++){
             // BLUE
-            if(word[0].charAt(i) == currTxt.charAt(i)){
+            if(word.charAt(i) == currTxt.charAt(i)){
                 String emoji = "\uD83D\uDFE6"; // blue emoji
                 newMsg = replaceEmojiAt(newMsg , i , emoji);
             }
