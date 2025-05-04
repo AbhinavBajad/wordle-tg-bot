@@ -1,9 +1,0 @@
-org\example\Main.class
-org\example\Commands.class
-org\example\ChatBotHandler.class
-org\example\WordleInstance.class
-org\example\CommandEnd.class
-org\data\commonWords.class
-org\example\CommandNew.class
-org\example\ChatBotProcessor.class
-org\data\WordLoader.class
